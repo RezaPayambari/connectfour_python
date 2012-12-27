@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 
+__author__ = "Fabian Golle, Veronika Schoepf"
+__copyright__ = "Copyright 2012, Fabian Golle, Veronika Schoepf"
+
+__version__ = "1.0.1"
+__email__ = "me@fabian-golle.de"
+__status__ = "Production"
+
+
 from random import choice
 from os import system
 from time import sleep
