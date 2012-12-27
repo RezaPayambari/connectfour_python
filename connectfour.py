@@ -5,7 +5,7 @@ class Connectfour(object):
 	def __init__(self):
 		super(Connectfour, self).__init__()
 
-	fieldsize = [6,30] # rows, columns
+	fieldsize = [6,2] # rows, columns
 	aienemy = False
 
 	field = []
@@ -15,17 +15,22 @@ class Connectfour(object):
 	whosTurn = 1;
 
 	def setup(self):
-		self.field = [[0 for x in range(self.fieldsize[1])] for x in range(self.fieldsize[0])]
+		# Helper
+		self.columnCount = self.fieldsize[1]
+		self.rowCount = self.fieldsize[0]
+
+		self.field = [[0 for x in range(self.columnCount)] for x in range(self.rowCount)]
 
 		# Check if column-count is bigger than identifier-list -> generate permutations..
-		if self.fieldsize[1] > len(self.identifier):
+		if self.columnCount > len(self.identifier):
 			ident = []
 			import itertools
 			for p in itertools.permutations(self.identifier, 2):
 			    ident.append(''.join(p))
 			self.identifier = self.identifier + ident
 
-		self.identifier = self.identifier[0:self.fieldsize[1]+1]
+		self.identifier = self.identifier[0:self.columnCount+1]
+
 
 	def getTranslation(self, content):
 		if content == 0:
@@ -37,7 +42,7 @@ class Connectfour(object):
 
 	def _printNewLine(self):
 		line = "+";
-		for i in range(0, self.fieldsize[1]+1):
+		for i in range(0, self.columnCount):
 			line += '-----+'
 		print(line)
 
@@ -50,10 +55,16 @@ class Connectfour(object):
 			print()
 			self._printNewLine()
 		line = " ";
-		for i in range(0, self.fieldsize[1]+1):
+		for i in range(0, self.columnCount):
 			separator = '  ' if (len(self.identifier[i]) == 1) else ' '
 			line += separator+self.identifier[i]+'   '
 		print(line)
+
+	def isNotFull(self):
+		for i in range(0, self.columnCount):
+			if (self.field[self.rowCount-1][i] == 0):
+				return True
+		return False
 
 
 	def feed(self, where):
@@ -63,12 +74,14 @@ class Connectfour(object):
 		# Find out if slot can be used
 		columnNumber = self.identifier.index(where)
 		rowNumber = 0
-		i = 0
 		for row in self.field:
 			if (row[columnNumber] == 0):
-				rowNumber = i
 				break
-			i += 1
+			rowNumber += 1
+
+		if (rowNumber >= self.rowCount):
+			print("Diese Reihe ist Voll!")
+			return False
 
 
 		# Save selection to field
@@ -80,7 +93,8 @@ class Connectfour(object):
 c4 = Connectfour()
 c4.setup();
 
-for x in range(1,10):
-	c4.feed(input(">> "))
+while (c4.isNotFull()):
+	c4.feed(input("Spieler "+str(c4.whosTurn)+" >> "))
 	c4.printField()
 
+print("Spielende.")
