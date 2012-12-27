@@ -5,7 +5,7 @@ class Connectfour(object):
 	def __init__(self):
 		super(Connectfour, self).__init__()
 
-	fieldsize = [6,2] # rows, columns
+	fieldsize = [6,7] # rows, columns
 	aienemy = False
 
 	field = []
@@ -67,6 +67,39 @@ class Connectfour(object):
 		return False
 
 
+	def checkWin(self):
+		# Check horizontally
+		for col in range(self.columnCount-3):
+			for row in range(self.rowCount):
+				if (self.field[row][col] == self.field[row][col+1] == self.field[row][col+2] == self.field[row][col+3] != 0):
+					return self.field[row][col]
+
+		# Check vertically
+		for row in range(self.rowCount-3):
+			for col in range(self.columnCount):
+				print("Checking col "+str(col)+" row "+str(row));
+				if (self.field[row][col] == self.field[row+1][col] == self.field[row+2][col] == self.field[row+3][col] != 0):
+					return self.field[row][col]
+
+		# Skip diagonal checks if column count is less than 4
+		if (self.columnCount < 4):
+			return False
+
+		# Check up-diagonally
+		for col in range(self.columnCount-3):
+			for row in range(self.rowCount-3):
+				if (self.field[row][col] == self.field[row+1][col+1] == self.field[row+2][col+2] == self.field[row+3][col+3] != 0):
+					return self.field[row][col]
+
+		# Check down-diagonally
+		for col in range(3, self.columnCount):
+			for row in range(self.rowCount-3):
+				if (self.field[row][col] == self.field[row+1][col-1] == self.field[row+2][col-2] == self.field[row+3][col-3] != 0):
+					return self.field[row][col]
+
+		return False
+
+
 	def feed(self, where):
 		if (where not in self.identifier):
 			return False
@@ -95,6 +128,10 @@ c4.setup();
 
 while (c4.isNotFull()):
 	c4.feed(input("Spieler "+str(c4.whosTurn)+" >> "))
+	win = c4.checkWin()
 	c4.printField()
+	if (win):
+		print ("Spieler "+str(win)+" hat gewonnen!")
+		quit();
 
 print("Spielende.")
