@@ -5,14 +5,23 @@ class Connectfour(object):
 	def __init__(self):
 		super(Connectfour, self).__init__()
 
-	fieldsize = [6,7] # rows, columns
+	fieldsize = [6,30] # rows, columns
 	aienemy = False
 
 	field = []
 
+	identifier = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 	def setup(self):
 		self.field = [[0 for x in range(self.fieldsize[1])] for x in range(self.fieldsize[0])]
+
+		# Check if column-count is bigger than identifier-list -> generate permutations..
+		if self.fieldsize[1] > len(self.identifier):
+			ident = []
+			import itertools
+			for p in itertools.permutations(self.identifier, 2):
+			    ident.append(''.join(p))
+			self.identifier = self.identifier + ident
 
 	def getTranslation(self, content):
 		if content == 0:
@@ -24,7 +33,7 @@ class Connectfour(object):
 
 	def _printNewLine(self):
 		line = "+";
-		for i in range(0, self.fieldsize[0]+1):
+		for i in range(0, self.fieldsize[1]+1):
 			line += '-----+'
 		print(line)
 
@@ -36,6 +45,11 @@ class Connectfour(object):
 				print(self.getTranslation(column) + ' | ', end='')
 			print()
 			self._printNewLine()
+		line = " ";
+		for i in range(0, self.fieldsize[1]+1):
+			separator = '  ' if (len(self.identifier[i]) == 1) else ' '
+			line += separator+self.identifier[i]+'   '
+		print(line)
 
 
 	def feed(self, where, what):
