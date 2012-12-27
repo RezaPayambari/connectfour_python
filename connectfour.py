@@ -20,6 +20,7 @@ class Connectfour(object):
 	whosTurn = 1;
 
 	def setup(self):
+		""" Build internal fieldmemory and set data """
 		# Helper
 		self.columnCount = self.fieldsize[1]
 		self.rowCount = self.fieldsize[0]
@@ -37,7 +38,8 @@ class Connectfour(object):
 		self.identifier = self.identifier[0:self.columnCount]
 
 
-	def getTranslation(self, content):
+	def _getTranslation(self, content):
+		""" Helper Method for printField, gets the disc-symbol which represents internal number-identifier """
 		if content == 0:
 			return "   "
 		elif content == 1:
@@ -46,18 +48,20 @@ class Connectfour(object):
 			return " O "
 
 	def _printNewLine(self):
+		""" Helper Method for printField, prints a new-line with corresponding headers,.. """
 		line = "+";
 		for i in range(0, self.columnCount):
 			line += '-----+'
 		print(line)
 
 	def printField(self):
+		""" Print the field human-readable in stdout """
 		print("\nVIER GEWINNT\n")
 		self._printNewLine()
 		for row in reversed(self.field):
 			print('| ', end='')
 			for column in row:
-				print(self.getTranslation(column) + ' | ', end='')
+				print(self._getTranslation(column) + ' | ', end='')
 			print()
 			self._printNewLine()
 		line = " ";
@@ -74,6 +78,7 @@ class Connectfour(object):
 
 
 	def checkWin(self):
+		""" Check, if there is a win-situation and determinates the winner """
 		# Check horizontally
 		for col in range(self.columnCount-3):
 			for row in range(self.rowCount):
@@ -105,6 +110,7 @@ class Connectfour(object):
 		return False
 
 	def error(self, message):
+		""" Error-Wrapper for simple string-error-messages, informs user, sleeps and give another chance """
 		if (self.whosTurn == 2 and self.aienemy == True):
 			return True
 
@@ -112,6 +118,7 @@ class Connectfour(object):
 		sleep(1)
 
 	def feed(self, where):
+		""" Let the current player feed the field / board and 'where'-position with his disc. Also user by AI """
 		where = where.upper()
 		if (where not in self.identifier):
 			self.error("Ungültiger Slot!")
@@ -145,6 +152,7 @@ class Connectfour(object):
 
 
 	def _aiMakeMove(self):
+		""" Very, very simple AI - But fulfilled task #6.5 from task sheet ;) """
 		while True:
 			selection = choice(self.identifier)
 			if (self.feed(selection)):
@@ -153,6 +161,7 @@ class Connectfour(object):
 				break
 
 def main():
+	""" This method is called when the script is called from commandline-interface """
 	system("clear")
 	Game = Connectfour()
 
@@ -202,6 +211,7 @@ def main():
 	Game.setup();
 	Game.printField()
 
+	# Okay, let's play the game!
 	while (Game.isNotFull()):
 		whateverTheUserEntered = input("Spieler "+str(Game.whosTurn)+" >> ")
 		if (whateverTheUserEntered.upper() == "Q"):
@@ -209,10 +219,11 @@ def main():
 			quit();
 		Game.feed(whateverTheUserEntered)
 		system("clear")
+		# Check if the win-situation changed..
 		win = Game.checkWin()
 		Game.printField()
 		if (win):
-			if (win == 1 or (win == 2 and self.aienemy == False)):
+			if (win == 1 or (win == 2 and Game.aienemy == False)):
 				for x in range(4):
 					system("clear")
 					print("""
@@ -242,10 +253,13 @@ $$ |  $$ |$$ |     $$  __$$ | $$ |$$\ $$ |  $$ |$$ |$$  __$$ | $$ |$$\ $$ |$$ | 
 """)
 					print ("Spieler "+str(win)+" hat gewonnen!")
 					sleep(1)
+			else:
+				print("Du hast gegen den primitiven Computergegner verloren. Shame on you! :(");
 			break
 
-	print("Spielende.")
+	print("Spielende. Danke für's Mitspielen und bis zum nächsten mal!")
 
 
+# If nothing else is set, call main() Method :) 
 if __name__ == "__main__":
     main()
