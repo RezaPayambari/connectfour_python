@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-__author__ = "Fabian Golle"
-__copyright__ = "Copyright 2012, Fabian Golle"
+__author__ = "Fabian Golle, Veronika Schoepf"
+__copyright__ = "Copyright 2012, Fabian Golle, Veronika Schoepf"
 
 __version__ = "1.0.1"
 __email__ = "me@fabian-golle.de"
@@ -207,7 +207,7 @@ def main():
 	while True:
 		print("\nWie groß soll das Spielfeld sein? Breite x Höhe (Leere Eingabe = Standardgröße 6x7)");
 		sizeI = input(">> ")
-		size = re.search("(\d)+( )?x( )?(\d)+", sizeI)
+		size = re.search("(\d+)( )?x( )?(\d+)", sizeI)
 		if (sizeI == ""):
 			break
 		elif (size):
