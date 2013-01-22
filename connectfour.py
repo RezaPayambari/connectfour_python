@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-__author__ = "Fabian Golle, Veronika Schoepf"
-__copyright__ = "Copyright 2012, Fabian Golle, Veronika Schoepf"
+__author__ = "Fabian Golle"
+__copyright__ = "Copyright 2012, Fabian Golle"
 
 __version__ = "1.0.1"
 __email__ = "me@fabian-golle.de"
@@ -184,7 +184,7 @@ def main():
                          |___/                                 
 	""")
 
-	print("Copyright 2012 Fabian Golle, Veronika Schoepf. Alle Rechte vorbehalten\n\n");
+	print("Copyright 2012 Fabian Golle. Alle Rechte vorbehalten\n\n");
 	print("Sie können das Spiel jederzeit mit der Eingabe von Q beenden!")
 	print("Herzlich Willkommen!\nWählen Sie einen Spielmodus!")
 	while True:
